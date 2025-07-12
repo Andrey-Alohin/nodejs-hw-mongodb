@@ -22,9 +22,9 @@ export const startServer = () => {
     }),
   );
 
-  app.use(contactsRouter);
+  app.use('/contacts', contactsRouter);
 
-  app.use('/{*any}', notFoundHandler);
+  app.use(notFoundHandler);
 
   app.use(errorHandler);
 
