@@ -5,9 +5,9 @@ import {
   getContactById,
   updateContact,
 } from '../services/contacts.js';
-import { generateError } from '../utils/generateError.js';
+import { throwIfNull } from '../utils/throwIfNull.js';
 
-const contactNotFound = generateError(404, 'Contact not found');
+const contactNotFound = throwIfNull(404, 'Contact not found');
 
 export const getAllContactsController = async (req, res) => {
   const contacts = await getAllContacts();
@@ -21,9 +21,7 @@ export const getAllContactsController = async (req, res) => {
 
 export const getContactByIdController = async (req, res) => {
   const { contactId } = req.params;
-  const contact = await getContactById(contactId);
-
-  contactNotFound(contact);
+  const contact = contactNotFound(await getContactById(contactId));
 
   res.status(200).json({
     status: 200,
@@ -44,9 +42,7 @@ export const createContactController = async (req, res) => {
 
 export const deleteContactController = async (req, res) => {
   const { contactId } = req.params;
-  const result = await deleteContact(contactId);
-
-  contactNotFound(result);
+  contactNotFound(await deleteContact(contactId));
 
   res.status(204).send();
 };
@@ -54,9 +50,7 @@ export const deleteContactController = async (req, res) => {
 export const patchContactController = async (req, res) => {
   const { contactId } = req.params;
 
-  const contact = await updateContact(contactId, req.body);
-
-  contactNotFound(contact);
+  const contact = contactNotFound(await updateContact(contactId, req.body));
 
   res.status(200).json({
     status: 200,
