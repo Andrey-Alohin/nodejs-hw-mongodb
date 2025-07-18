@@ -13,10 +13,10 @@ import { throwIfNull } from '../utils/throwIfNull.js';
 const contactNotFound = throwIfNull(404, 'Contact not found');
 
 export const getAllContactsController = async (req, res) => {
-  const { page, perPage } = parsePaginationParams(req.query);
+  const { page, perPage } = parsePaginationParams(req.query, 1, 10);
   const { sortBy, sortOrder } = parseSortParams(req.query);
   const filter = parseFilterParams(req.query);
-  console.log(filter);
+
   const contacts = await getAllContacts({
     page,
     perPage,

@@ -9,11 +9,11 @@ const parsedNumber = (value, defaulValue) => {
   return parsedValue;
 };
 
-export const parsePaginationParams = (query) => {
+export const parsePaginationParams = (query, defPage, defPerPage) => {
   const { page, perPage } = query;
 
-  const parsedPage = parsedNumber(page, 1);
-  const parsedPerPage = parsedNumber(perPage, 10);
+  const parsedPage = parsedNumber(page, defPage);
+  const parsedPerPage = parsedNumber(perPage, defPerPage);
 
   return {
     page: parsedPage,

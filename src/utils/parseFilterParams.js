@@ -1,4 +1,4 @@
-import { FILTER_TYPE } from '../constants/index.js';
+import { FILTER_TYPE } from '../constants/contacts.js';
 
 const parseType = (value) => {
   if (typeof value === 'undefined') {
