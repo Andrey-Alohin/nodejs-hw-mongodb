@@ -26,7 +26,7 @@ export const logInUserController = async (req, res) => {
     status: 200,
     message: 'Successfully logged in an user!',
     data: {
-      accessToken: session.refreshToken,
+      accessToken: session.accessToken,
     },
   });
 };
