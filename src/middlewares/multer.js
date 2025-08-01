@@ -8,8 +8,8 @@ const storage = multer.diskStorage({
   filename: function (req, file, cb) {
     const formatedName = file.originalname
       .toLowerCase()
-      .replace(' ', '_')
-      .replace(/[\w.-]/g, '');
+      .replace(/\s/g, '_')
+      .replace(/[^\w.-]/g, '');
     const uniqueSuffix = Date.now() + '_' + Math.round(Math.random() * 1e9);
     cb(null, `${uniqueSuffix}_${formatedName}`);
   },

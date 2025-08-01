@@ -5,10 +5,10 @@ import {
   getContactById,
   updateContact,
 } from '../services/contacts.js';
+import { handleUploadFileOrUpdate } from '../utils/handleUploadFile.js';
 import { parseFilterParams } from '../utils/parseFilterParams.js';
 import { parsePaginationParams } from '../utils/parsePaginationParams.js';
 import { parseSortParams } from '../utils/parseSortParams.js';
-import { saveFileToUploadDir } from '../utils/saveFileToUploadDir.js';
 import { throwIfNull } from '../utils/throwIfNull.js';
 
 const contactNotFound = throwIfNull(404, 'Contact not found');
@@ -52,12 +52,11 @@ export const getContactByIdController = async (req, res) => {
 export const createContactController = async (req, res) => {
   const { _id: userId } = req.user;
   const photo = req.file;
+  let photoURL = null;
 
-  let photoURL;
+  const result = await handleUploadFileOrUpdate(photo, null);
+  if (result !== undefined) photoURL = result;
 
-  if (photo) {
-    photoURL = await saveFileToUploadDir(photo);
-  }
   const contact = await createContact({ ...req.body, userId, photo: photoURL });
 
   res.status(201).json({
@@ -80,18 +79,14 @@ export const patchContactController = async (req, res) => {
   const { contactId } = req.params;
 
   const photo = req.file;
+  let photoURL = null;
+  const result = await handleUploadFileOrUpdate(photo, req.body.photo, {
+    _id: contactId,
+    userId,
+  });
+  if (result !== undefined) photoURL = result;
 
-  let photoURL;
-
-  if (photo) {
-    photoURL = await saveFileToUploadDir(photo);
-    req.body.photo = photoURL;
-  }
-  if (req.body.photo === 'null') {
-    req.body.photo = null;
-  }
-
-  console.log(req.body);
+  req.body.photo = photoURL;
 
   const contact = contactNotFound(
     await updateContact({ _id: contactId, userId, payload: req.body }),

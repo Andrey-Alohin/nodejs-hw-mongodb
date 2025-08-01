@@ -26,8 +26,8 @@ router.get('/', ctrlWrapper(getAllContactsController));
 
 router.post(
   '/',
-  validateBody(createContactSchema),
   upload.single('photo'),
+  validateBody(createContactSchema),
   ctrlWrapper(createContactController),
 );
 
@@ -46,8 +46,8 @@ router.delete(
 router.patch(
   '/:contactId',
   isValidContactID,
-  validateBody(patchContactSchema),
   upload.single('photo'),
+  validateBody(patchContactSchema),
   ctrlWrapper(patchContactController),
 );
 

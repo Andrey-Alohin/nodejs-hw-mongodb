@@ -1,5 +1,20 @@
 import { model, Schema } from 'mongoose';
 
+const PhotoSchema = new Schema(
+  {
+    url: {
+      type: String,
+      required: true,
+    },
+    public_id: {
+      type: String,
+      required: false,
+      default: null,
+    },
+  },
+  { _id: false },
+);
+
 const Contact = new Schema(
   {
     name: {
@@ -27,8 +42,7 @@ const Contact = new Schema(
       default: 'personal',
     },
     photo: {
-      type: String,
-      required: false,
+      type: PhotoSchema,
       default: null,
     },
     userId: {
@@ -42,5 +56,11 @@ const Contact = new Schema(
     versionKey: false,
   },
 );
+
+Contact.methods.toJSON = function () {
+  const obj = this.toObject();
+  delete obj.photo?.public_id;
+  return obj;
+};
 
 export const ContactsColection = model('contacts', Contact);
