@@ -1,0 +1,22 @@
+description: Bad request, invalid input
+content:
+  application/json:
+    schema:
+      type: object
+      required:
+        - status
+        - message
+      properties:
+        status:
+          type: integer
+          example: 400
+        message:
+          type: string
+          example: Bad Request
+        errors:
+          type: array
+          description: List of validation errors (present only when request body is provided)
+          items:
+            type: string
+          example:
+            - '"phoneNumber" length must be at least 10 characters long'

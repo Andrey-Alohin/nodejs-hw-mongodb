@@ -1,0 +1,35 @@
+description: Unauthorized - Missing or invalid token
+content:
+  application/json:
+    schema:
+      type: object
+      required:
+        - status
+        - message
+      properties:
+        status:
+          type: integer
+          example: 401
+        message:
+          type: string
+    examples:
+      missingToken:
+        summary: No token provided
+        value:
+          status: 401
+          message: 'Please provide Authorization header'
+      expiredToken:
+        summary: Token expired
+        value:
+          status: 401
+          message: 'Access token expired'
+      invalidToken:
+        summary: Invalid token
+        value:
+          status: 401
+          message: 'Auth header should be of type Bearer'
+      sessionNotFound:
+        summary: Session not found
+        value:
+          status: 401
+          message: 'Session not found'

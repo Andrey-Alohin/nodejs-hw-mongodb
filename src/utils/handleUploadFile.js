@@ -47,7 +47,7 @@ export const handleUploadFileOrUpdate = async (
       : saveFileToUploadDir(file);
   }
 
-  if (photo === 'null' || photo === null) {
+  if (photo === 'null' || photo === '') {
     await deleteOldPhoto();
     return null;
   }
