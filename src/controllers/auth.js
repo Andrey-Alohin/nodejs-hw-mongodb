@@ -13,7 +13,7 @@ export const registerUserController = async (req, res) => {
   const user = await registerUser(req.body);
 
   res.status(201).json({
-    status: 200,
+    status: 201,
     message: 'Successfully registered a user!',
     data: user,
   });
@@ -77,5 +77,18 @@ export const resetPasswordController = async (req, res) => {
     status: 200,
     message: 'Password has been successfully reset.',
     data: {},
+  });
+};
+
+export const getUserInfoController = async (req, res) => {
+  const { user } = req;
+
+  res.status(200).json({
+    status: 200,
+    message: 'User data retrieved',
+    data: {
+      name: user.name,
+      email: user.email,
+    },
   });
 };

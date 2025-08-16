@@ -14,7 +14,9 @@ import {
   requestResetEmailController,
   resetPasswordController,
   refreshUserSessionController,
+  getUserInfoController,
 } from '../controllers/auth.js';
+import { authenticate } from '../middlewares/authenticate.js';
 
 const router = Router();
 
@@ -41,6 +43,8 @@ router.post(
   validateBody(resetPasswordSchema),
   ctrlWrapper(resetPasswordController),
 );
+
+router.get('/me', authenticate, ctrlWrapper(getUserInfoController));
 
 router.post('/logout', ctrlWrapper(logOutUserController));
 
